@@ -1,14 +1,14 @@
-package rabbitmq
+package amqp
 
 import (
-	amqp "github.com/rabbitmq/amqp091-go"
+	"github.com/rabbitmq/amqp091-go"
 	"net"
 	"time"
 )
 
 // NewConnection 全新tcp连接
 func NewConnection(uri string) (*Connection, error) {
-	conn, err := amqp.Dial(uri)
+	conn, err := amqp091.Dial(uri)
 	if err != nil {
 		return nil, err
 	}
@@ -17,7 +17,7 @@ func NewConnection(uri string) (*Connection, error) {
 
 type Connection struct {
 	Uri  string
-	conn *amqp.Connection
+	conn *amqp091.Connection
 }
 
 func (c *Connection) Read(b []byte) (n int, err error) {
@@ -59,7 +59,7 @@ func (c *Connection) SetWriteDeadline(t time.Time) error {
 	panic("implement me")
 }
 
-func (c *Connection) GetConnection() *amqp.Connection {
+func (c *Connection) GetConnection() *amqp091.Connection {
 	return c.conn
 }
 

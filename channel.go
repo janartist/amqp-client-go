@@ -1,12 +1,12 @@
-package rabbitmq
+package amqp
 
 import (
-	amqp "github.com/rabbitmq/amqp091-go"
+	"github.com/rabbitmq/amqp091-go"
 )
 
 type channel struct {
 	*Connection
-	*amqp.Channel
+	*amqp091.Channel
 }
 
 type BrokerOption struct {
@@ -45,8 +45,8 @@ type QueueOption struct {
 	Exclusive  bool
 	AutoDelete bool
 	NoWait     bool
-	Arguments  amqp.Table
-	MsgHeaders amqp.Table
+	Arguments  amqp091.Table
+	MsgHeaders amqp091.Table
 }
 
 type ExchangeOption struct {
@@ -56,13 +56,13 @@ type ExchangeOption struct {
 	AutoDelete bool
 	Internal   bool
 	NoWait     bool
-	Arguments  amqp.Table
+	Arguments  amqp091.Table
 }
 
 type QueueBindOption struct {
 	RouteKey  string
 	NoWait    bool
-	Arguments amqp.Table
+	Arguments amqp091.Table
 }
 
 // WorkerOption 重试次数

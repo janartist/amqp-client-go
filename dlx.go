@@ -1,7 +1,7 @@
-package rabbitmq
+package amqp
 
 import (
-	amqp "github.com/rabbitmq/amqp091-go"
+	amqp091 "github.com/rabbitmq/amqp091-go"
 	"time"
 )
 
@@ -14,7 +14,7 @@ type DlxOption struct {
 // SetDlxQueue 设置死信队列
 func (broker *BrokerOption) SetDlxQueue(option *DlxOption) {
 	if broker.Queue.Arguments == nil {
-		broker.Queue.Arguments = amqp.Table{}
+		broker.Queue.Arguments = amqp091.Table{}
 	}
 	if option.DlxExchange == "" {
 		option.DlxExchange = broker.Exchange.Name + ".dlx"

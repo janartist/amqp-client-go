@@ -4,9 +4,8 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/janartist/amqp-client-go"
 	"time"
-
-	rabbitmq "rabbitmq-client"
 )
 
 var (
@@ -24,14 +23,14 @@ func main() {
 }
 
 func procuder() {
-	conn, _ := rabbitmq.NewConnection(*uri)
+	conn, _ := amqp.NewConnection(*uri)
 	ch, err := conn.NewChannel()
 
 	if err != nil {
 		fmt.Printf("channel error:%v \n", err)
 		return
 	}
-	broker := rabbitmq.MakeDefaultBroker("default-queue", "default-exchange", rabbitmq.Direct, "default")
+	broker := amqp.MakeDefaultBroker("default-queue", "default-exchange", amqp.Direct, "default")
 	ch.Declare(broker)
 	publish := make(chan string)
 
@@ -56,7 +55,7 @@ func procuder() {
 }
 
 func procuderWithPool() {
-	amqp, err := rabbitmq.NewRabbitmq(&rabbitmq.Rabbitmq{
+	amqp2, err := amqp.NewRabbitmq(&amqp.Rabbitmq{
 		Uri:        *uri,
 		InitialCap: 5,
 		MaxCap:     20,
@@ -65,7 +64,7 @@ func procuderWithPool() {
 		fmt.Printf("pool amqp error:%v \n", err)
 		return
 	}
-	conn, _ := amqp.GetConnection()
+	conn, _ := amqp2.GetConnection()
 	ch, err := conn.NewChannel()
 
 	if err != nil {
@@ -73,7 +72,7 @@ func procuderWithPool() {
 		return
 	}
 
-	broker := rabbitmq.MakeDefaultBroker("default-queue", "default-exchange", rabbitmq.Direct, "default")
+	broker := amqp.MakeDefaultBroker("default-queue", "default-exchange", amqp.Direct, "default")
 
 	err = ch.Confirm(broker)
 	if err != nil {

@@ -1,10 +1,10 @@
-package rabbitmq
+package amqp
 
 import (
 	"log"
 	"net"
 
-	"rabbitmq-client/pool"
+	"github.com/janartist/amqp-client-go/pool"
 )
 
 type Rabbitmq struct {
